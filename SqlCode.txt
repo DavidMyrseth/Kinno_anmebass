@@ -1,0 +1,69 @@
+﻿-- Создание базы данных Kino
+CREATE DATABASE Kino;
+USE Kino;
+
+-- Таблица для Режиссеров
+CREATE TABLE Rezisoor(
+id INT PRIMARY KEY identity(1,1),
+RezisooriNimi VARCHAR(255),
+PerekonnaNimi VARCHAR(255));
+
+-- Таблица для Жанров
+CREATE TABLE Zanr(
+id INT PRIMARY KEY identity(1,1),
+Nimetus VARCHAR(255));
+
+-- Таблица для Возрастных ограничений
+CREATE TABLE Vanus(
+id INT PRIMARY KEY identity(1,1),
+Nimetus VARCHAR(255));
+
+-- Таблица для Фильмов
+CREATE TABLE Film(
+id INT PRIMARY KEY identity(1,1),
+Film VARCHAR(255),
+Kirjeldus TEXT,
+Aeg TIME,
+Poster VARCHAR(255),
+RezisoorID INT,
+ZanrID INT,
+VanusID INT,
+FOREIGN KEY (RezisoorID) REFERENCES Rezisoor(id),
+FOREIGN KEY (ZanrID) REFERENCES Zanr(id),
+FOREIGN KEY (VanusID) REFERENCES Vanus(id));
+
+-- Таблица для Залов
+CREATE TABLE Saal(
+id INT PRIMARY KEY identity(1,1),
+SaaliNimi VARCHAR(255),
+SaalisKohtID INT);
+
+-- Таблица для Мест в зале
+CREATE TABLE SaalisKoht(
+id INT PRIMARY KEY identity(1,1),
+Nimetus VARCHAR(255),
+Rida INT,
+Koht INT);
+
+-- Таблица для Сеансов
+CREATE TABLE Seanss(
+id INT PRIMARY KEY identity(1,1),
+Aeg DATETIME NOT NULL,
+FilmID INT,
+SaalID INT,
+FOREIGN KEY (FilmID) REFERENCES Film(id),
+FOREIGN KEY (SaalID) REFERENCES Saal(id));
+
+-- Таблица для Билетов
+CREATE TABLE Pilet(
+id INT PRIMARY KEY identity(1,1),
+SaaliNimi VARCHAR(255),
+SaalisKohtID INT,
+FOREIGN KEY (SaalisKohtID) REFERENCES SaalisKoht(id));
+
+-- Таблица для Регистрации пользователей
+CREATE TABLE Reg(
+id INT AUTO_INCREMENT PRIMARY KEY,
+KasutajaNimi VARCHAR(255),
+Email VARCHAR(255) UNIQUE,
+Parool VARCHAR(255));
